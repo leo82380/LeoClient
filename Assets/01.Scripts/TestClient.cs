@@ -1,6 +1,4 @@
-using System;
-using System.Net.Sockets;
-using System.Text;
+using LeoClient.Unity.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -31,7 +29,7 @@ public class TestClient : LeoClientMono
         base.Update();
         if (Keyboard.current.aKey.isPressed)
         {
-            Send("a");
+            Network.Send("a");
         }
     }
 }
