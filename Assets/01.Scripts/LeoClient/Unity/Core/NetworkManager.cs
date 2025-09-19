@@ -1,52 +1,64 @@
 using System;
+using LeoClient.Unity.Network;
 using UnityEngine;
 
-namespace LeoClient.Unity.Network
+namespace LeoClient.Unity.Core
 {
-    public class LeoClientMono : MonoBehaviour
+    public class NetworkManager : MonoSingleton<NetworkManager>
     {
         [Header("Server Info")]
-        public ServerInfo serverInfo;
+        [field: SerializeField] public ServerInfo ServerInfo { get; private set; }
 
-        private LeoClientHelper clientHelper = new LeoClientHelper();
         private LeoClientNetwork clientNetwork;
+        private LeoClientHelper clientHelper;
 
         // 이벤트
         public event Action<string> OnMessageReceived;
         public event Action OnConnected;
         public event Action OnDisconnected;
 
-        public LeoClientNetwork Network => clientNetwork;
-
-        protected virtual void Awake()
+        protected override void Awake()
         {
-            clientNetwork = new LeoClientNetwork(serverInfo);
+            base.Awake();
+            ConnectToServer();
+            AddEvents();
+        }
+
+        private void Start()
+        {
+            clientNetwork.Connect();
+            clientNetwork.Send("SpawnPlayer:1,1,10;0,0,0,1");
+        }
+
+        private void Update()
+        {
+            clientHelper.ProcessQueue();
+        }
+
+        private void OnDestroy()
+        {
+            RemoveEvents();
+            clientNetwork.Disconnect();
+        }
+
+        private void AddEvents()
+        {
             clientNetwork.OnMessageReceived += HandleMessageReceived;
             clientNetwork.OnConnected += HandleConnected;
             clientNetwork.OnDisconnected += HandleDisconnected;
         }
 
-        protected virtual void Start()
-        {
-            clientNetwork.Connect();
-        }
-
-        protected virtual void Update()
-        {
-            clientHelper.ProcessQueue();
-        }
-
-        protected virtual void FixedUpdate()
-        {
-            // 필요한 경우 상속받은 클래스에서 사용
-        }
-
-        protected virtual void OnDestroy()
+        private void RemoveEvents()
         {
             clientNetwork.OnMessageReceived -= HandleMessageReceived;
             clientNetwork.OnConnected -= HandleConnected;
             clientNetwork.OnDisconnected -= HandleDisconnected;
-            clientNetwork.Disconnect();
+        }
+
+        private void ConnectToServer()
+        {
+            clientNetwork = new LeoClientNetwork(ServerInfo);
+            clientHelper = new LeoClientHelper();
         }
         
         private void HandleDisconnected()

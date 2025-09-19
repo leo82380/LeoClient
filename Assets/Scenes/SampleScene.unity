@@ -530,6 +530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1074919950}
+  - component: {fileID: 1074919952}
   - component: {fileID: 1074919951}
   m_Layer: 0
   m_Name: GameObject
@@ -562,12 +563,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1074919948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f03ed4bf182097b4f8342516b6d1dfb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 81d97b31318c63c44b271191d60d5469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Host: 127.0.0.1
-  Port: 7777
-  text: {fileID: 403225647}
+  <PlayerPrefab>k__BackingField: {fileID: 5913961347136618027, guid: 95df882d9b9566d4b83cce657e3b2acf, type: 3}
+--- !u!114 &1074919952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074919948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab8769354010be4d9e31677efc24122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ServerInfo>k__BackingField:
+    Host: 127.0.0.1
+    Port: 7777
 --- !u!1 &1349684907
 GameObject:
   m_ObjectHideFlags: 0
